@@ -14,6 +14,7 @@ public class Venta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = false) // Referencia a id del Producto
     private Producto producto;
