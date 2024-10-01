@@ -25,9 +25,9 @@ public class ProductoController {
     }
 
     //Obtener un producto por su id
-    @GetMapping({"/{id_producto}"})
-    public ResponseEntity<Producto> getProductoById(@PathVariable int id_producto) {
-        Producto producto = productoService.getProductoById(id_producto);
+    @GetMapping({"/{id}"})
+    public ResponseEntity<Producto> getProductoById(@PathVariable int id) {
+        Producto producto = productoService.getProductoById(id);
         if (producto == null) {
             return ResponseEntity.ok(producto);
         }
@@ -41,9 +41,9 @@ public class ProductoController {
     }
 
     //Actualizar un producto por su id
-    @PutMapping("/{id_producto}")
-    public ResponseEntity<Producto> updateProducto(@PathVariable int id_producto, @RequestBody Producto producto) {
-        Producto updatedProducto = productoService.updateProducto(id_producto, producto);
+    @PutMapping("/{id}")
+    public ResponseEntity<Producto> updateProducto(@PathVariable int id, @RequestBody Producto producto) {
+        Producto updatedProducto = productoService.updateProducto(id, producto);
         if (updatedProducto!=null){
             return ResponseEntity.ok(updatedProducto);
         }
@@ -51,9 +51,9 @@ public class ProductoController {
     }
 
     //Eliminar un producto por su id
-    @DeleteMapping("/{id_producto}")
-    public ResponseEntity<Producto> deleteProducto(@PathVariable int id_producto) {
-        productoService.deleteProducto(id_producto);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Producto> deleteProducto(@PathVariable int id) {
+        productoService.deleteProducto(id);
         return ResponseEntity.noContent().build();
     }
 
