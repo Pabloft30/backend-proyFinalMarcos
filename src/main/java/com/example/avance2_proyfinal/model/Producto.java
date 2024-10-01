@@ -9,7 +9,7 @@ public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_producto;
+    private int id;
     private String nombre;
     private int cantidad;
     private double precio_dia;
@@ -19,12 +19,12 @@ public class Producto {
     private Date fecha_ingreso;
     private String proveedor;
 
-    public int getId_producto() {
-        return id_producto;
+    public int getId() {
+        return id;
     }
 
-    public void setId_producto(int id_producto) {
-        this.id_producto = id_producto;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
