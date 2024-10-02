@@ -56,6 +56,7 @@ public class VentaService {
                 existingVenta.setFechaVenta(venta.getFechaVenta());
                 existingVenta.setMetodoPago(venta.getMetodoPago());
                 existingVenta.setCantidad(venta.getCantidad());
+                existingVenta.setNombreCliente(venta.getNombreCliente());
                 return ventaRepository.save(existingVenta);
             }
         }

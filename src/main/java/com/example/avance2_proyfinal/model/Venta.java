@@ -23,6 +23,7 @@ public class Venta {
     private LocalDate fechaVenta; // Ahora usando LocalDate
     private String metodoPago;
     private int cantidad;
+    private String nombreCliente;
 
     // Getters y Setters
 
@@ -68,7 +69,12 @@ public class Venta {
         this.cantidad = cantidad;
     }
 
-
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
 
 
 }

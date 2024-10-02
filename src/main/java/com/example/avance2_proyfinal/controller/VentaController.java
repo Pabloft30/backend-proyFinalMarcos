@@ -55,6 +55,7 @@ public class VentaController {
             venta.setFechaVenta(venta.getFechaVenta());
             venta.setMetodoPago(venta.getMetodoPago());
             venta.setCantidad(venta.getCantidad());
+            venta.setNombreCliente(venta.getNombreCliente());
 
             Venta savedVenta = ventaRepository.save(venta);
             return ResponseEntity.ok(savedVenta);
@@ -83,6 +84,7 @@ public class VentaController {
         existingVenta.setFechaVenta(venta.getFechaVenta());
         existingVenta.setMetodoPago(venta.getMetodoPago());
         existingVenta.setCantidad(venta.getCantidad());
+        existingVenta.setNombreCliente(venta.getNombreCliente());
 
         Venta updatedVenta = ventaRepository.save(existingVenta);
         return ResponseEntity.ok(updatedVenta);
