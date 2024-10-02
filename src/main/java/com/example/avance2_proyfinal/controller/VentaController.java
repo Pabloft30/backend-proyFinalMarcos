@@ -61,7 +61,7 @@ public class VentaController {
             return ResponseEntity.ok(savedVenta);
         } catch (ConfigDataResourceNotFoundException e){
             return ResponseEntity.badRequest().body(null);
-        }
+        }hhhhhhh
     }
 
     @PutMapping("/{id}")
