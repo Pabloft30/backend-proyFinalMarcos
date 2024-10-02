@@ -52,9 +52,9 @@ public class VentaController {
 
             venta.setProducto(prod);
             venta.setEmpleado(emp);
-            // Asegúrate de que estos atributos existen en tu modelo de Venta
             venta.setFechaVenta(venta.getFechaVenta());
             venta.setMetodoPago(venta.getMetodoPago());
+            venta.setCantidad(venta.getCantidad());
 
             Venta savedVenta = ventaRepository.save(venta);
             return ResponseEntity.ok(savedVenta);
@@ -82,6 +82,7 @@ public class VentaController {
         existingVenta.setEmpleado(emp);
         existingVenta.setFechaVenta(venta.getFechaVenta());
         existingVenta.setMetodoPago(venta.getMetodoPago());
+        existingVenta.setCantidad(venta.getCantidad());
 
         Venta updatedVenta = ventaRepository.save(existingVenta);
         return ResponseEntity.ok(updatedVenta);
