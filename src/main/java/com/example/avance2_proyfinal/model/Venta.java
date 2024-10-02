@@ -2,8 +2,7 @@ package com.example.avance2_proyfinal.model;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
-
+import java.time.LocalDate;
 
 @Entity
 @Table(name="ventas")
@@ -12,18 +11,19 @@ public class Venta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
+
     @ManyToOne
-    @JoinColumn(name = "producto_id")// Referencia a id del Producto
+    @JoinColumn(name = "producto_id")
     private Producto producto;
 
     @ManyToOne
     @JoinColumn(name="empleado_id")
     private Empleado empleado;
 
-   // Getters y Setters
-    private Date fechaVenta;
+    private LocalDate fechaVenta; // Ahora usando LocalDate
     private String metodoPago;
+
+    // Getters y Setters
 
     public int getId() {
         return id;
@@ -46,10 +46,10 @@ public class Venta {
         this.empleado = empleado;
     }
 
-    public Date getFechaVenta() {
+    public LocalDate getFechaVenta() {
         return fechaVenta;
     }
-    public void setFechaVenta(Date fechaVenta) {
+    public void setFechaVenta(LocalDate fechaVenta) {
         this.fechaVenta = fechaVenta;
     }
 
