@@ -26,7 +26,7 @@ public class ProductoService {
     }
 
     public Producto updateProducto(int id, Producto producto) {
-        Producto prod = productoRepository.findById(producto.getId()).orElse(null);
+        Producto prod = productoRepository.findById(id).orElse(null);
         if (prod != null) {
             prod.setNombre(producto.getNombre());
             prod.setCantidad(producto.getCantidad());

@@ -2,6 +2,7 @@ package com.example.avance2_proyfinal.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -16,7 +17,7 @@ public class Producto {
     private double precio_noche;
     private String descripcion;
     private String categoria;
-    private Date fecha_ingreso;
+    private LocalDate fecha_ingreso;
     private String proveedor;
 
     public int getId() {
@@ -72,10 +73,10 @@ public class Producto {
         this.categoria = categoria;
     }
 
-    public Date getFecha_ingreso() {
+    public LocalDate getFecha_ingreso() {
         return fecha_ingreso;
     }
-    public void setFecha_ingreso(Date fecha_ingreso) {
+    public void setFecha_ingreso(LocalDate fecha_ingreso) {
         this.fecha_ingreso = fecha_ingreso;
     }
 
