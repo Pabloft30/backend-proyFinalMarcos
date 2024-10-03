@@ -31,7 +31,6 @@ public class RegistroVentaService {
             // Asigna los nuevos valores desde registroVenta
             reg.setCliente(registroVenta.getCliente());
             reg.setCantidad(registroVenta.getCantidad());
-            reg.setFecha(registroVenta.getFecha()); // Asumiendo que fecha no es un campo modificable, puedes omitir esto
             reg.setMetodo_pago(registroVenta.getMetodo_pago());
             reg.setVendedor(registroVenta.getVendedor());
             reg.setProducto(registroVenta.getProducto());
