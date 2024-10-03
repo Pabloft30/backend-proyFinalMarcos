@@ -39,7 +39,7 @@ public class RegistroVentaController {
     @PutMapping("/{id}")
     public ResponseEntity<RegistroVenta> updateRegistro(@PathVariable int id, @RequestBody RegistroVenta registroVenta){
         RegistroVenta registroVentaUpdated = registroVentaService.updateRegistroVenta(id, registroVenta);
-        if(registroVentaUpdated == null){
+        if(registroVentaUpdated != null){
             return ResponseEntity.ok(registroVentaUpdated);
         }
         return ResponseEntity.notFound().build();

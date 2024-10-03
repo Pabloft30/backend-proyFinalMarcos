@@ -28,13 +28,14 @@ public class RegistroVentaService {
     public RegistroVenta updateRegistroVenta(int id, RegistroVenta registroVenta) {
         RegistroVenta reg = registroVentaRepository.findById(id).orElse(null);
         if (reg != null) {
-            reg.setCliente(reg.getCliente());
-            reg.setCantidad(reg.getCantidad());
-            reg.setFecha(reg.getFecha());
-            reg.setMetodo_pago(reg.getMetodo_pago());
-            reg.setVendedor(reg.getVendedor());
-            reg.setProducto(reg.getProducto());
-            reg.setTotal(reg.getTotal());
+            // Asigna los nuevos valores desde registroVenta
+            reg.setCliente(registroVenta.getCliente());
+            reg.setCantidad(registroVenta.getCantidad());
+            reg.setFecha(registroVenta.getFecha()); // Asumiendo que fecha no es un campo modificable, puedes omitir esto
+            reg.setMetodo_pago(registroVenta.getMetodo_pago());
+            reg.setVendedor(registroVenta.getVendedor());
+            reg.setProducto(registroVenta.getProducto());
+            reg.setTotal(registroVenta.getTotal());
             return registroVentaRepository.save(reg);
         }
         return null;
