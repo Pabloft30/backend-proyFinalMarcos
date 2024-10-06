@@ -10,65 +10,67 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VentaService {
 
-    @Autowired
-    private VentaRepository ventaRepository;
+    private final VentaRepository ventaRepository;
+    private final ProductoRepository productoRepository;
+    private final EmpleadoRepository empleadoRepository;
 
     @Autowired
-    private ProductoRepository productoRepository;
-
-    @Autowired
-    private EmpleadoRepository empleadoRepository;
+    public VentaService(VentaRepository ventaRepository, ProductoRepository productoRepository, EmpleadoRepository empleadoRepository) {
+        this.ventaRepository = ventaRepository;
+        this.productoRepository = productoRepository;
+        this.empleadoRepository = empleadoRepository;
+    }
 
     public List<Venta> getAllVentas() {
         return ventaRepository.findAll();
     }
 
-    public Venta getVentaById(int ventaId) {
-        return ventaRepository.findById(ventaId).orElse(null);
+    public Optional<Venta> getVentaById(int id) {
+        return ventaRepository.findById(id);
     }
 
-    public Venta createVenta(Venta venta) {
-        Producto prod = productoRepository.findById(venta.getProducto().getId()).orElse(null);
-        Empleado emp = empleadoRepository.findById(venta.getEmpleado().getId()).orElse(null);
-
-        if (prod != null && emp != null) {
-            venta.setProducto(prod);
-            venta.setEmpleado(emp);
-            return ventaRepository.save(venta);
-        }
-        return null; // O manejar el error como prefieras
+    public Venta addVenta(Venta venta) {
+        Producto producto = productoRepository.findById(venta.getProducto().getId())
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        Empleado empleado = empleadoRepository.findById(venta.getEmpleado().getId())
+                .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
+        venta.setProducto(producto);
+        venta.setEmpleado(empleado);
+        return ventaRepository.save(venta);
     }
 
-    public Venta updateVenta(int ventaId, Venta venta) {
-        Venta existingVenta = ventaRepository.findById(ventaId).orElse(null);
+    public Venta updateVenta(Integer id, Venta ventaDetails) {
+        Venta venta = ventaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Venta no encontrada"));
 
-        if (existingVenta != null) {
-            Producto prod = productoRepository.findById(venta.getProducto().getId()).orElse(null);
-            Empleado emp = empleadoRepository.findById(venta.getEmpleado().getId()).orElse(null);
+        Producto producto = productoRepository.findById(ventaDetails.getProducto().getId())
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
-            if (prod != null && emp != null) {
-                existingVenta.setProducto(prod);
-                existingVenta.setEmpleado(emp);
-                existingVenta.setFechaVenta(venta.getFechaVenta());
-                existingVenta.setMetodoPago(venta.getMetodoPago());
-                existingVenta.setCantidad(venta.getCantidad());
-                existingVenta.setNombreCliente(venta.getNombreCliente());
-                return ventaRepository.save(existingVenta);
-            }
-        }
-        return null; // O manejar el error como prefieras
+        Empleado empleado = empleadoRepository.findById(ventaDetails.getEmpleado().getId())
+                .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
+
+
+        venta.setProducto(producto);
+        venta.setEmpleado(empleado);
+        venta.setMetodoPago(ventaDetails.getMetodoPago());
+        venta.setCantidad(ventaDetails.getCantidad());
+        venta.setNombreCliente(ventaDetails.getNombreCliente());
+
+        return ventaRepository.save(venta);
     }
 
-    public boolean deleteVenta(int ventaId) {
-        Venta venta = ventaRepository.findById(ventaId).orElse(null);
-        if (venta != null) {
-            ventaRepository.delete(venta);
-            return true; // Indica que se eliminó correctamente
-        }
-        return false; // O manejar el error como prefieras
+    public void deleteVenta(Integer id) {
+        Venta venta = ventaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Venta no encontrada"));
+        ventaRepository.delete(venta);
     }
+
+
+
+
 }

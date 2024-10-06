@@ -76,6 +76,17 @@ public class Venta {
         this.nombreCliente = nombreCliente;
     }
 
+    public Venta() {}
+
+    public Venta(Empleado empleado, Producto producto, LocalDate fechaVenta, String metodoPago, int cantidad, String nombreCliente){
+        this.empleado = empleado;
+        this.producto = producto;
+        this.fechaVenta = fechaVenta;
+        this.metodoPago = metodoPago;
+        this.cantidad = cantidad;
+        this.nombreCliente = nombreCliente;
+    }
+
 
 }
 
