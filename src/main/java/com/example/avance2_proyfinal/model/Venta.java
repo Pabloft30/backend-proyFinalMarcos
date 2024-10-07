@@ -23,6 +23,7 @@ public class Venta {
     private LocalDate fechaVenta; // Ahora usando LocalDate
     private String metodoPago;
     private int cantidad;
+    private double total;
     private String nombreCliente;
 
     // Getters y Setters
@@ -76,17 +77,25 @@ public class Venta {
         this.nombreCliente = nombreCliente;
     }
 
-    public Venta() {}
-
-    public Venta(Empleado empleado, Producto producto, LocalDate fechaVenta, String metodoPago, int cantidad, String nombreCliente){
-        this.empleado = empleado;
-        this.producto = producto;
-        this.fechaVenta = fechaVenta;
-        this.metodoPago = metodoPago;
-        this.cantidad = cantidad;
-        this.nombreCliente = nombreCliente;
+    public double getTotal() {
+        return total;
     }
 
+    public void setTotal(double total) {
+        this.total = total;
+    }
 
+    public Venta() {}
+
+    public Venta(int id, Producto producto, Empleado empleado, LocalDate fechaVenta, String metodoPago, double total, String nombreCliente, int cantidad) {
+        this.id = id;
+        this.producto = producto;
+        this.empleado = empleado;
+        this.fechaVenta = fechaVenta;
+        this.metodoPago = metodoPago;
+        this.total = total;
+        this.nombreCliente = nombreCliente;
+        this.cantidad = cantidad;
+    }
 }
 

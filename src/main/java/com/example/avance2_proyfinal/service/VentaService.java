@@ -60,6 +60,7 @@ public class VentaService {
         venta.setMetodoPago(ventaDetails.getMetodoPago());
         venta.setCantidad(ventaDetails.getCantidad());
         venta.setNombreCliente(ventaDetails.getNombreCliente());
+        venta.setTotal(ventaDetails.getTotal());
 
         return ventaRepository.save(venta);
     }
