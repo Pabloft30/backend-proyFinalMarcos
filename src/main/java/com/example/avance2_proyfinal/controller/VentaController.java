@@ -20,6 +20,12 @@ public class VentaController {
         this.ventaService = ventaService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<Venta>> getAllVentas() {
+        List<Venta> ventas = ventaService.getAllVentas();
+        return ResponseEntity.ok(ventas);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Venta> getVentaById(@PathVariable int id) {
         Optional<Venta> venta = ventaService.getVentaById(id);
