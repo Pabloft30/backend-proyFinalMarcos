@@ -11,34 +11,34 @@ public class Empleado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull(message = "El nombre del empleado es requerido") // Valida que el campo no sea nulo
-    @Size(min = 3, max = 50, message = "El nombre del empleado debe tener entre 3 y 50 caracteres") // Valida que el campo tenga una longitud entre 3 y 50 caracteres
+    @NotNull(message = "El nombre del empleado es requerido")
+    @Size(min = 3, max = 50, message = "El nombre del empleado debe tener entre 3 y 50 caracteres")
     private String nombre;
 
-    @NotNull(message = "El apellido del empleado es requerido") // Valida que el campo no sea nulo
-    @Size(min = 3, max = 50, message = "El apellido del empleado debe tener entre 3 y 50 caracteres") // Valida que el campo tenga una longitud entre 3 y 50 caracteres
+    @NotNull(message = "El apellido del empleado es requerido")
+    @Size(min = 3, max = 50, message = "El apellido del empleado debe tener entre 3 y 50 caracteres")
     private String apellido;
 
     private String turno;
 
-    @NotNull(message = "El teléfono es requerido") // Valida que el campo no sea nulo
-    @Min(value = 900000000, message = "El teléfono debe comenzar con 9 y tener 9 dígitos") // Valida que el número sea al menos 9 dígitos comenzando con 9
-    @Max(value = 999999999, message = "El teléfono debe comenzar con 9 y tener 9 dígitos") // Valida que el número no exceda los 9 dígitos
+    @NotNull(message = "El teléfono es requerido")
+    @Min(value = 900000000, message = "El teléfono debe comenzar con 9 y tener 9 dígitos")
+    @Max(value = 999999999, message = "El teléfono debe comenzar con 9 y tener 9 dígitos")
     private int telefono; // Mantener como int
 
-    @NotNull(message = "El correo del empleado es requerido") // Valida que el campo no sea nulo
-    @Column(unique = true) // Valida que el campo sea único
+    @NotNull(message = "El correo del empleado es requerido")
+    @Column(unique = true)
     @Pattern(regexp = "^[a-zA-Z0-9_.%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "El correo del empleado no es válido") // Valida que el campo cumpla con una expresión regular
     private String correo;
 
-    @NotNull(message = "La edad es requerida") // Valida que el campo no sea nulo
-    @Min(value = 18, message = "La edad mínima debe ser 18 años") // Valida que la edad mínima sea 18
+    @NotNull(message = "La edad es requerida")
+    @Min(value = 18, message = "La edad mínima debe ser 18 años")
     private int edad;
 
     private String genero;
 
-    @NotNull(message = "La dirección es requerida") // Valida que el campo no sea nulo
-    @Size(min = 5, max = 100, message = "La dirección debe tener entre 5 y 100 caracteres") // Valida que el campo tenga una longitud entre 5 y 100 caracteres
+    @NotNull(message = "La dirección es requerida")
+    @Size(min = 5, max = 100, message = "La dirección debe tener entre 5 y 100 caracteres")
     private String direccion;
 
     public int getId() {

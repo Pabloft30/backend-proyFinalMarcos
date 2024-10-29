@@ -54,7 +54,6 @@ public class VentaService {
         Empleado empleado = empleadoRepository.findById(ventaDetails.getEmpleado().getId())
                 .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
 
-
         venta.setProducto(producto);
         venta.setEmpleado(empleado);
         venta.setMetodoPago(ventaDetails.getMetodoPago());

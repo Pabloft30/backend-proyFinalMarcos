@@ -20,15 +20,16 @@ public class Producto {
     private String nombre;
 
     @NotNull(message = "La cantidad es requerida")
-    @Min(value = 0, message = "La cantidad no puede ser negativa")
+    @Min(value = 1, message = "La cantidad no puede ser negativa")
     private int cantidad;
 
     @NotNull(message = "El precio de día es requerido")
-    @DecimalMin(value = "0.0", inclusive = true, message = "El precio de día no puede ser negativo")
+    @DecimalMin(value = "0.1", inclusive = true, message = "El precio de día debe ser al menos 0.1")
     private double precio_dia;
 
-    @DecimalMin(value = "0.0", inclusive = true, message = "El precio de noche no puede ser negativo")
+    @DecimalMin(value = "0.1", inclusive = true, message = "El precio de noche debe ser al menos 0.1")
     private double precio_noche;
+
 
     @NotNull(message = "La descripción es requerida")
     @Size(max = 255, message = "La descripción no debe exceder los 255 caracteres")
@@ -62,19 +63,19 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public @NotNull(message = "La cantidad es requerida") @Min(value = 0, message = "La cantidad no puede ser negativa") int getCantidad() {
+    public @NotNull(message = "La cantidad es requerida") @Min(value = 1, message = "La cantidad no puede ser negativa") int getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(@NotNull(message = "La cantidad es requerida") @Min(value = 0, message = "La cantidad no puede ser negativa") int cantidad) {
+    public void setCantidad(@NotNull(message = "La cantidad es requerida") @Min(value = 1, message = "La cantidad no puede ser negativa") int cantidad) {
         this.cantidad = cantidad;
     }
 
-    public @NotNull(message = "El precio de día es requerido") @DecimalMin(value = "0.0", inclusive = true, message = "El precio de día no puede ser negativo") double getPrecio_dia() {
+    public @NotNull(message = "El precio de día es requerido") @DecimalMin(value = "0.1", inclusive = true, message = "El precio de día no puede ser negativo") double getPrecio_dia() {
         return precio_dia;
     }
 
-    public void setPrecio_dia(@NotNull(message = "El precio de día es requerido") @DecimalMin(value = "0.0", inclusive = true, message = "El precio de día no puede ser negativo") double precio_dia) {
+    public void setPrecio_dia(@NotNull(message = "El precio de día es requerido") @DecimalMin(value = "0.1", inclusive = true, message = "El precio de día no puede ser negativo") double precio_dia) {
         this.precio_dia = precio_dia;
     }
 
