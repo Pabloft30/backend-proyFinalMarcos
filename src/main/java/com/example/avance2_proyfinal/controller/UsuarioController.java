@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -16,6 +18,24 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, String>> login(@RequestBody Usuario usuario) {
+        Usuario user = usuarioService.authenticate(usuario.getNombre(), usuario.getPassword());
+
+        if (user != null) {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Login exitoso");
+            // Aquí podrías agregar un token JWT o más información si es necesario
+            return ResponseEntity.ok(response); // Devuelve un objeto JSON
+        }
+
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", "Credenciales inválidas");
+        return ResponseEntity.status(401).body(errorResponse); // Devuelve un objeto JSON de error
+    }
+
+
 
     @GetMapping
     public List<Usuario> getAllUsuarios() {

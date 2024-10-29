@@ -39,4 +39,14 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
+    public Usuario authenticate(String nombre, String password) {
+        Usuario usuario = usuarioRepository.findByNombre(nombre); // Cambia aquí también
+        if (usuario != null && usuario.getPassword().equals(password)) {
+            return usuario; // Aquí deberías implementar el hashing más adelante
+        }
+        return null;
+    }
+
+
+
 }
