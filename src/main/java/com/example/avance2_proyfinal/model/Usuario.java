@@ -2,13 +2,15 @@ package com.example.avance2_proyfinal.model;
 
 import jakarta.persistence.*;
 
+@Entity
+@Table(name="usuarios")
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nombre;
-    private String contraseña;
+    private String password;
 
     public int getId() {
         return id;
@@ -24,11 +26,11 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
-    }
 }

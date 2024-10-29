@@ -28,7 +28,7 @@ public class UsuarioController {
         if (usuario == null) {
             return ResponseEntity.ok(usuario);
         }
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping
@@ -38,11 +38,11 @@ public class UsuarioController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> updateUsuario(@PathVariable int id, @RequestBody Usuario usuario) {
-        Usuario usuarioUpdate = usuarioService.updateUsuario(id, usuario);
-        if (usuarioUpdate == null) {
-            return ResponseEntity.ok(usuarioUpdate);
+        Usuario updatedUsuario = usuarioService.updateUsuario(id, usuario);
+        if(updatedUsuario!=null) {
+            return ResponseEntity.ok(updatedUsuario);
         }
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")

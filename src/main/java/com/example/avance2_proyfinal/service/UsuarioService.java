@@ -25,11 +25,11 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    public Usuario updateUsuario(int id, Usuario usuario) {
-        Usuario usu = usuarioRepository.findById(id).orElse(null);
-        if (usu != null) {
+    public Usuario updateUsuario(int id,Usuario usuario) {
+        Usuario usu=usuarioRepository.findById(id).orElse(null);
+        if (usu!=null) {
             usu.setNombre(usuario.getNombre());
-            usu.setContraseña(usuario.getContraseña());
+            usu.setPassword(usuario.getPassword());
             return usuarioRepository.save(usu);
         }
         return null;
@@ -38,6 +38,5 @@ public class UsuarioService {
     public void deleteUsuario(int id) {
         usuarioRepository.deleteById(id);
     }
-
 
 }
