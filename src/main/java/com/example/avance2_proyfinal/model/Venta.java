@@ -1,6 +1,7 @@
 package com.example.avance2_proyfinal.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
@@ -13,17 +14,28 @@ public class Venta {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "producto_id")
+    @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;
 
     @ManyToOne
-    @JoinColumn(name="empleado_id")
+    @JoinColumn(name = "empleado_id", nullable = false)
     private Empleado empleado;
 
+    @NotNull(message = "La fecha de venta es requerida")
+    @PastOrPresent(message = "La fecha de venta no puede ser una fecha futura")
     private LocalDate fechaVenta; // Ahora usando LocalDate
+
+    @NotNull(message = "El método de pago es requerido")
     private String metodoPago;
+
+    @NotNull(message = "La cantidad es requerida")
+    @Min(value = 1, message = "La cantidad debe ser al menos 1")
     private int cantidad;
+
     private double total;
+
+    @NotNull(message = "El nombre del cliente es requerido")
+    @Size(min = 3, max = 100, message = "El nombre del cliente debe tener entre 3 y 100 caracteres")
     private String nombreCliente;
 
     // Getters y Setters
@@ -49,10 +61,12 @@ public class Venta {
         this.empleado = empleado;
     }
 
-    public LocalDate getFechaVenta() {
+    public @NotNull(message = "La fecha de venta es requerida")
+    @PastOrPresent(message = "La fecha de venta no puede ser una fecha futura") LocalDate getFechaVenta() {
         return fechaVenta;
     }
-    public void setFechaVenta(LocalDate fechaVenta) {
+    public void setFechaVenta(@NotNull(message = "La fecha de venta es requerida")
+                              @PastOrPresent(message = "La fecha de venta no puede ser una fecha futura") LocalDate fechaVenta) {
         this.fechaVenta = fechaVenta;
     }
 
@@ -63,17 +77,21 @@ public class Venta {
         this.metodoPago = metodoPago;
     }
 
-    public int getCantidad() {
+    public @NotNull(message = "La cantidad es requerida")
+    @Min(value = 1, message = "La cantidad debe ser al menos 1") int getCantidad() {
         return cantidad;
     }
-    public void setCantidad(int cantidad) {
+    public void setCantidad(@NotNull(message = "La cantidad es requerida")
+                            @Min(value = 1, message = "La cantidad debe ser al menos 1") int cantidad) {
         this.cantidad = cantidad;
     }
 
-    public String getNombreCliente() {
+    public @NotNull(message = "El nombre del cliente es requerido")
+    @Size(min = 3, max = 100, message = "El nombre del cliente debe tener entre 3 y 100 caracteres") String getNombreCliente() {
         return nombreCliente;
     }
-    public void setNombreCliente(String nombreCliente) {
+    public void setNombreCliente(@NotNull(message = "El nombre del cliente es requerido")
+                                 @Size(min = 3, max = 100, message = "El nombre del cliente debe tener entre 3 y 100 caracteres") String nombreCliente) {
         this.nombreCliente = nombreCliente;
     }
 

@@ -1,20 +1,44 @@
 package com.example.avance2_proyfinal.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
+@Table(name = "empleado")
 public class Empleado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @NotNull(message = "El nombre del empleado es requerido") // Valida que el campo no sea nulo
+    @Size(min = 3, max = 50, message = "El nombre del empleado debe tener entre 3 y 50 caracteres") // Valida que el campo tenga una longitud entre 3 y 50 caracteres
     private String nombre;
+
+    @NotNull(message = "El apellido del empleado es requerido") // Valida que el campo no sea nulo
+    @Size(min = 3, max = 50, message = "El apellido del empleado debe tener entre 3 y 50 caracteres") // Valida que el campo tenga una longitud entre 3 y 50 caracteres
     private String apellido;
+
     private String turno;
-    private int telefono;
+
+    @NotNull(message = "El teléfono es requerido") // Valida que el campo no sea nulo
+    @Min(value = 900000000, message = "El teléfono debe comenzar con 9 y tener 9 dígitos") // Valida que el número sea al menos 9 dígitos comenzando con 9
+    @Max(value = 999999999, message = "El teléfono debe comenzar con 9 y tener 9 dígitos") // Valida que el número no exceda los 9 dígitos
+    private int telefono; // Mantener como int
+
+    @NotNull(message = "El correo del empleado es requerido") // Valida que el campo no sea nulo
+    @Column(unique = true) // Valida que el campo sea único
+    @Pattern(regexp = "^[a-zA-Z0-9_.%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "El correo del empleado no es válido") // Valida que el campo cumpla con una expresión regular
     private String correo;
+
+    @NotNull(message = "La edad es requerida") // Valida que el campo no sea nulo
+    @Min(value = 18, message = "La edad mínima debe ser 18 años") // Valida que la edad mínima sea 18
     private int edad;
+
     private String genero;
+
+    @NotNull(message = "La dirección es requerida") // Valida que el campo no sea nulo
+    @Size(min = 5, max = 100, message = "La dirección debe tener entre 5 y 100 caracteres") // Valida que el campo tenga una longitud entre 5 y 100 caracteres
     private String direccion;
 
     public int getId() {
@@ -24,17 +48,17 @@ public class Empleado {
         this.id = id;
     }
 
-    public String getNombre() {
+    public @NotNull(message = "El nombre del empleado es requerido") @Size(min = 3, max = 50, message = "El nombre del empleado debe tener entre 3 y 50 caracteres") String getNombre() {
         return nombre;
     }
-    public void setNombre(String nombre) {
+    public void setNombre(@NotNull(message = "El nombre del empleado es requerido") @Size(min = 3, max = 50, message = "El nombre del empleado debe tener entre 3 y 50 caracteres") String nombre) {
         this.nombre = nombre;
     }
 
-    public String getApellido() {
+    public  @NotNull(message = "El apellido del empleado es requerido") @Size(min = 3, max = 50, message = "El apellido del empleado debe tener entre 3 y 50 caracteres") String getApellido() {
         return apellido;
     }
-    public void setApellido(String apellido) {
+    public void setApellido(@NotNull(message = "El apellido del empleado es requerido") @Size(min = 3, max = 50, message = "El apellido del empleado debe tener entre 3 y 50 caracteres") String apellido) {
         this.apellido = apellido;
     }
 
@@ -45,24 +69,36 @@ public class Empleado {
         this.turno = turno;
     }
 
-    public int getTelefono() {
+    public @NotNull(message = "El teléfono es requerido")
+    @Min(value = 900000000, message = "El teléfono debe comenzar con 9 y tener 9 dígitos")
+    @Max(value = 999999999, message = "El teléfono debe comenzar con 9 y tener 9 dígitos") int getTelefono() {
         return telefono;
     }
-    public void setTelefono(int telefono) {
+    public void setTelefono(@NotNull(message = "El teléfono es requerido")
+                            @Min(value = 900000000, message = "El teléfono debe comenzar con 9 y tener 9 dígitos")
+                            @Max(value = 999999999, message = "El teléfono debe comenzar con 9 y tener 9 dígitos") int telefono) {
+        // Validación adicional para verificar que comience con 9
+        if (String.valueOf(telefono).charAt(0) != '9') {
+            throw new IllegalArgumentException("El teléfono debe comenzar con 9");
+        }
         this.telefono = telefono;
     }
 
-    public String getCorreo() {
+    public @NotNull(message = "El correo del empleado es requerido")
+    @Pattern(regexp = "^[a-zA-Z0-9_.%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "El correo del empleado no es válido") String getCorreo() {
         return correo;
     }
-    public void setCorreo(String correo) {
+    public void setCorreo( @NotNull(message = "El correo del empleado es requerido")
+                           @Pattern(regexp = "^[a-zA-Z0-9_.%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "El correo del empleado no es válido") String correo) {
         this.correo = correo;
     }
 
-    public int getEdad() {
+    public @NotNull(message = "La edad es requerida") // Valida que el campo no sea nulo
+    @Min(value = 18, message = "La edad mínima debe ser 18 años") int getEdad() {
         return edad;
     }
-    public void setEdad(int edad) {
+    public void setEdad(@NotNull(message = "La edad es requerida") // Valida que el campo no sea nulo
+                        @Min(value = 18, message = "La edad mínima debe ser 18 años") int edad) {
         this.edad = edad;
     }
 
@@ -73,10 +109,12 @@ public class Empleado {
         this.genero = genero;
     }
 
-    public String getDireccion() {
+    public @NotNull(message = "La dirección es requerida")
+    @Size(min = 5, max = 100, message = "La dirección debe tener entre 5 y 100 caracteres") String getDireccion() {
         return direccion;
     }
-    public void setDireccion(String direccion) {
+    public void setDireccion(@NotNull(message = "La dirección es requerida")
+                             @Size(min = 5, max = 100, message = "La dirección debe tener entre 5 y 100 caracteres") String direccion) {
         this.direccion = direccion;
     }
 
