@@ -1,7 +1,6 @@
 package com.example.avance2_proyfinal.controller;
 
 import com.example.avance2_proyfinal.model.Producto;
-import com.example.avance2_proyfinal.model.Venta;
 import com.example.avance2_proyfinal.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

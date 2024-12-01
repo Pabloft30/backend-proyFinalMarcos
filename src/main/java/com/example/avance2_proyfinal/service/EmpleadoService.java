@@ -1,9 +1,7 @@
 package com.example.avance2_proyfinal.service;
 
 import com.example.avance2_proyfinal.model.Empleado;
-import com.example.avance2_proyfinal.model.Producto;
 import com.example.avance2_proyfinal.repository.EmpleadoRepository;
-import com.example.avance2_proyfinal.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +12,6 @@ public class EmpleadoService {
 
     @Autowired
     private EmpleadoRepository empleadoRepository;
-    @Autowired
-    private ProductoRepository productoRepository;
 
     public List<Empleado> getAllEmpleados() {
         return empleadoRepository.findAll();

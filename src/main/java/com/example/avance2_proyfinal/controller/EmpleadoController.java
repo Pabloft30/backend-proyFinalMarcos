@@ -2,9 +2,7 @@ package com.example.avance2_proyfinal.controller;
 
 import com.example.avance2_proyfinal.service.EmpleadoService;
 import com.example.avance2_proyfinal.model.Empleado;
-import com.example.avance2_proyfinal.repository.EmpleadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
