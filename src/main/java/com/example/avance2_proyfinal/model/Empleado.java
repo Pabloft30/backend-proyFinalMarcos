@@ -33,6 +33,7 @@ public class Empleado {
 
     @NotNull(message = "La edad es requerida")
     @Min(value = 18, message = "La edad mínima debe ser 18 años")
+    @Max(value = 70, message = "La edad máxima debe ser 70 años")
     private int edad;
 
     private String genero;

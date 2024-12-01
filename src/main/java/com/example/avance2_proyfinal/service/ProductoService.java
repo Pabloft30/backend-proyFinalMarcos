@@ -1,48 +1,69 @@
 package com.example.avance2_proyfinal.service;
 
 import com.example.avance2_proyfinal.model.Producto;
+import com.example.avance2_proyfinal.model.Categoria;
 import com.example.avance2_proyfinal.repository.ProductoRepository;
+import com.example.avance2_proyfinal.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductoService {
 
-    @Autowired
-    private ProductoRepository productoRepository;
+    private final ProductoRepository productoRepository;
+    private final CategoriaRepository categoriaRepository;
 
+    @Autowired
+    public ProductoService(ProductoRepository productoRepository, CategoriaRepository categoriaRepository) {
+        this.productoRepository = productoRepository;
+        this.categoriaRepository = categoriaRepository;
+    }
+
+    // Obtener todos los productos
     public List<Producto> getAllProductos() {
         return productoRepository.findAll();
     }
 
-    public Producto getProductoById(int id) {
-        return productoRepository.findById(id).orElse(null);
+    // Obtener un producto por su ID
+    public Optional<Producto> getProductoById(int id) {
+        return productoRepository.findById(id);
     }
 
+    // Registrar un nuevo producto
     public Producto addProducto(Producto producto) {
+        Categoria categoria = categoriaRepository.findById(producto.getCategoria().getId())
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+        producto.setCategoria(categoria);
         return productoRepository.save(producto);
     }
 
-    public Producto updateProducto(int id, Producto producto) {
-        Producto prod = productoRepository.findById(id).orElse(null);
-        if (prod != null) {
-            prod.setNombre(producto.getNombre());
-            prod.setCantidad(producto.getCantidad());
-            prod.setPrecio_dia(producto.getPrecio_dia());
-            prod.setPrecio_noche(producto.getPrecio_noche());
-            prod.setDescripcion(producto.getDescripcion());
-            prod.setCategoria(producto.getCategoria());
-            prod.setFecha_ingreso(producto.getFecha_ingreso());
-            prod.setProveedor(producto.getProveedor());
-            return productoRepository.save(prod);
-        }
-        return null;
+    // Actualizar un producto existente
+    public Producto updateProducto(Integer id, Producto productoDetails) {
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        Categoria categoria = categoriaRepository.findById(productoDetails.getCategoria().getId())
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+
+        producto.setNombre(productoDetails.getNombre());
+        producto.setCantidad(productoDetails.getCantidad());
+        producto.setPrecio_dia(productoDetails.getPrecio_dia());
+        producto.setPrecio_noche(productoDetails.getPrecio_noche());
+        producto.setDescripcion(productoDetails.getDescripcion());
+        producto.setCategoria(categoria);
+        producto.setFecha_ingreso(productoDetails.getFecha_ingreso());
+        producto.setProveedor(productoDetails.getProveedor());
+
+        return productoRepository.save(producto);
     }
 
-    public void deleteProducto(int id) {
-        productoRepository.deleteById(id);
+    // Eliminar un producto por su ID
+    public void deleteProducto(Integer id) {
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        productoRepository.delete(producto);
     }
-
 }

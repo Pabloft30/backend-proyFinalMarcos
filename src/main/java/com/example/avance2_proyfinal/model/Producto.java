@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "producto")
@@ -35,9 +34,9 @@ public class Producto {
     @Size(max = 255, message = "La descripción no debe exceder los 255 caracteres")
     private String descripcion;
 
-    @NotNull(message = "La categoría es requerida")
-    @Size(min = 3, max = 50, message = "La categoría debe tener entre 3 y 50 caracteres")
-    private String categoria;
+    @ManyToOne
+    @JoinColumn(name = "categoria_id", nullable = false)
+    private Categoria categoria;
 
     @NotNull(message = "La fecha de ingreso es requerida")
     @PastOrPresent(message = "La fecha de ingreso no puede ser una fecha futura")
@@ -93,10 +92,11 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    public @NotNull(message = "La categoría es requerida") @Size(min = 3, max = 50, message = "La categoría debe tener entre 3 y 50 caracteres") String getCategoria() {
+    public Categoria getCategoria() {
         return categoria;
     }
-    public void setCategoria(@NotNull(message = "La categoría es requerida") @Size(min = 3, max = 50, message = "La categoría debe tener entre 3 y 50 caracteres") String categoria) {
+
+    public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
 
