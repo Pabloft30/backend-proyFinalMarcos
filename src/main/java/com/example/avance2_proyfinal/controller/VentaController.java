@@ -1,6 +1,8 @@
 package com.example.avance2_proyfinal.controller;
 
+import com.example.avance2_proyfinal.model.Producto;
 import com.example.avance2_proyfinal.model.Venta;
+import com.example.avance2_proyfinal.service.ProductoService;
 import com.example.avance2_proyfinal.service.VentaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +16,12 @@ import java.util.Optional;
 public class VentaController {
 
     private final VentaService ventaService;
+    private final ProductoService productoService;
 
     @Autowired
-    public VentaController(VentaService ventaService) {
+    public VentaController(VentaService ventaService, ProductoService productoService) {
         this.ventaService = ventaService;
+        this.productoService = productoService;
     }
 
     @GetMapping
@@ -33,7 +37,24 @@ public class VentaController {
     }
 
     @PostMapping
-    public ResponseEntity<Venta> addVenta(@RequestBody Venta venta) {
+    public ResponseEntity<?> addVenta(@RequestBody Venta venta) {
+        // Verificar existencia del producto
+        Optional<Producto> productoOptional = productoService.getProductoById(venta.getProducto().getId());
+        if (productoOptional.isEmpty()) {
+            return ResponseEntity.badRequest().body("El producto no existe.");
+        }
+
+        Producto producto = productoOptional.get();
+
+        // Verificar si hay stock suficiente
+        if (producto.getCantidad() < venta.getCantidad()) {
+            return ResponseEntity.badRequest().body("Stock insuficiente para realizar la venta.");
+        }
+
+        // Descontar el stock del producto utilizando actualizarStock
+        productoService.actualizarStock(producto.getId(), venta.getCantidad());
+
+        // Registrar la venta
         Venta newVenta = ventaService.addVenta(venta);
         return ResponseEntity.ok(newVenta);
     }
@@ -49,6 +70,4 @@ public class VentaController {
         ventaService.deleteVenta(id);
         return ResponseEntity.noContent().build();
     }
-
-
 }

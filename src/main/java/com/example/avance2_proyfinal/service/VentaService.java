@@ -35,12 +35,28 @@ public class VentaService {
     }
 
     public Venta addVenta(Venta venta) {
+        // Validar existencia del producto
         Producto producto = productoRepository.findById(venta.getProducto().getId())
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        // Validar existencia del empleado
         Empleado empleado = empleadoRepository.findById(venta.getEmpleado().getId())
                 .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
+
+        // Validar stock suficiente
+        if (producto.getCantidad() < venta.getCantidad()) {
+            throw new RuntimeException("Stock insuficiente para realizar la venta");
+        }
+
+        // Descontar el stock
+        producto.setCantidad(producto.getCantidad() - venta.getCantidad());
+        productoRepository.save(producto); // Actualizar producto en la base de datos
+
+        // Configurar las relaciones en la venta
         venta.setProducto(producto);
         venta.setEmpleado(empleado);
+
+        // Guardar la venta
         return ventaRepository.save(venta);
     }
 
@@ -54,6 +70,17 @@ public class VentaService {
         Empleado empleado = empleadoRepository.findById(ventaDetails.getEmpleado().getId())
                 .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
 
+        // Si la cantidad del producto cambia, se ajusta el stock
+        int diferenciaCantidad = ventaDetails.getCantidad() - venta.getCantidad();
+        if (producto.getCantidad() < diferenciaCantidad) {
+            throw new RuntimeException("Stock insuficiente para realizar la venta");
+        }
+
+        // Descontar o sumar al stock según la diferencia
+        producto.setCantidad(producto.getCantidad() - diferenciaCantidad);
+        productoRepository.save(producto);  // Actualizar el producto con el nuevo stock
+
+        // Configurar los valores de la venta
         venta.setProducto(producto);
         venta.setEmpleado(empleado);
         venta.setMetodoPago(ventaDetails.getMetodoPago());
@@ -67,10 +94,16 @@ public class VentaService {
     public void deleteVenta(Integer id) {
         Venta venta = ventaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Venta no encontrada"));
-        ventaRepository.delete(venta);
+
+        // Restaurar el stock del producto
+        Producto producto = venta.getProducto();
+        producto.setCantidad(producto.getCantidad() + venta.getCantidad());
+        productoRepository.save(producto); // Actualizar el stock en la base de datos
+
+        ventaRepository.delete(venta); // Eliminar la venta
     }
-
-
-
-
 }
+
+
+
+

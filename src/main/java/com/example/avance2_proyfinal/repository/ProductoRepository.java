@@ -10,4 +10,6 @@ public interface ProductoRepository  extends JpaRepository<Producto, Integer> {
 
     Producto findByCategoria(Categoria categoria);
 
+
+
 }

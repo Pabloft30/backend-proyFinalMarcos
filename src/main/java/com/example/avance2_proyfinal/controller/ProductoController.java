@@ -54,4 +54,11 @@ public class ProductoController {
         productoService.deleteProducto(id);
         return ResponseEntity.noContent().build();
     }
+
+    // Actualizar stock de un producto
+    @PutMapping("/{id}/stock")
+    public ResponseEntity<Producto> actualizarStock(@PathVariable int id, @RequestParam int cantidad) {
+        Producto producto = productoService.actualizarStock(id, cantidad);
+        return ResponseEntity.ok(producto);
+    }
 }

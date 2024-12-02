@@ -60,6 +60,24 @@ public class ProductoService {
         return productoRepository.save(producto);
     }
 
+    // Método para actualizar el stock después de una venta
+    public Producto actualizarStock(int id, int cantidadVendida) {
+        Optional<Producto> productoOptional = productoRepository.findById(id);
+        if (productoOptional.isEmpty()) {
+            throw new IllegalArgumentException("El producto no existe.");
+        }
+        Producto producto = productoOptional.get();
+
+        // Descontamos la cantidad vendida
+        int nuevaCantidad = producto.getCantidad() - cantidadVendida;
+        if (nuevaCantidad < 0) {
+            throw new IllegalArgumentException("Stock insuficiente para realizar la venta.");
+        }
+
+        producto.setCantidad(nuevaCantidad);
+        return productoRepository.save(producto);
+    }
+
     // Eliminar un producto por su ID
     public void deleteProducto(Integer id) {
         Producto producto = productoRepository.findById(id)
