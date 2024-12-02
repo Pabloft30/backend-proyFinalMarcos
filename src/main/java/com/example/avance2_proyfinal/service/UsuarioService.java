@@ -1,8 +1,11 @@
 package com.example.avance2_proyfinal.service;
 
 import com.example.avance2_proyfinal.model.Usuario;
+import com.example.avance2_proyfinal.model.Empleado;
 import com.example.avance2_proyfinal.repository.UsuarioRepository;
+import com.example.avance2_proyfinal.repository.EmpleadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +16,13 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private EmpleadoRepository empleadoRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
     public List<Usuario> getAllUsuarios() {
         return usuarioRepository.findAll();
     }
@@ -22,14 +32,20 @@ public class UsuarioService {
     }
 
     public Usuario addUsuario(Usuario usuario) {
+        Empleado empleado = empleadoRepository.findById(usuario.getEmpleado().getId())
+                .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
+        usuario.setEmpleado(empleado);
         return usuarioRepository.save(usuario);
     }
 
     public Usuario updateUsuario(int id,Usuario usuario) {
         Usuario usu=usuarioRepository.findById(id).orElse(null);
-        if (usu!=null) {
+        if (usu != null) {
+            Empleado empleado = empleadoRepository.findById(usuario.getEmpleado().getId())
+                    .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
             usu.setNombre(usuario.getNombre());
             usu.setPassword(usuario.getPassword());
+            usu.setEmpleado(empleado);
             return usuarioRepository.save(usu);
         }
         return null;

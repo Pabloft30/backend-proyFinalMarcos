@@ -2,6 +2,7 @@ package com.example.avance2_proyfinal.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import java.util.Set;
 
 @Entity
 @Table(name="usuarios")
@@ -21,6 +22,20 @@ public class Usuario {
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).+$",
             message = "La contraseña debe contener al menos un número, una letra minúscula, una letra mayúscula y un carácter especial (@#$%^&+=)")
     private String password;
+
+    // Relación ManyToMany con la entidad Role
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "usuarios_roles",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "rol_id")
+    )
+    private Set<Rol> roles;
+
+    @ManyToOne
+    @JoinColumn(name = "empleado_id", nullable = false)
+    private Empleado empleado;
+
 
     public int getId() {
         return id;
@@ -49,6 +64,22 @@ public class Usuario {
                             @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).+$",
                                     message = "La contraseña debe contener al menos un número, una letra minúscula, una letra mayúscula y un carácter especial (@#$%^&+=)") String password) {
         this.password = password;
+    }
+
+    public Set<Rol> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Rol> roles) {
+        this.roles = roles;
+    }
+
+    public Empleado getEmpleado() {
+        return empleado;
+    }
+
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
     }
 
 }
