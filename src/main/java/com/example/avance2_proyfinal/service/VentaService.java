@@ -39,8 +39,23 @@ public class VentaService {
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
         Empleado empleado = empleadoRepository.findById(venta.getEmpleado().getId())
                 .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
+
+        // Verificar si hay suficiente stock
+        if (producto.getCantidad() < venta.getCantidad()) {
+            throw new RuntimeException("Stock insuficiente para el producto " + producto.getNombre());
+        }
+
+        // Restar la cantidad vendida del stock
+        producto.setCantidad(producto.getCantidad() - venta.getCantidad());
+
+        // Guardar el producto con el stock actualizado
+        productoRepository.save(producto);
+
+        // Establecer el producto y empleado en la venta
         venta.setProducto(producto);
         venta.setEmpleado(empleado);
+
+        // Guardar la venta
         return ventaRepository.save(venta);
     }
 
@@ -54,6 +69,22 @@ public class VentaService {
         Empleado empleado = empleadoRepository.findById(ventaDetails.getEmpleado().getId())
                 .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
 
+        // Restaurar el stock del producto anterior (de la venta actual)
+        Producto productoAnterior = venta.getProducto();
+        productoAnterior.setCantidad(productoAnterior.getCantidad() + venta.getCantidad()); // Restaurar el stock
+
+        // Verificar si hay suficiente stock para la nueva venta
+        if (producto.getCantidad() < ventaDetails.getCantidad()) {
+            throw new RuntimeException("Stock insuficiente para el producto " + producto.getNombre());
+        }
+
+        // Actualizar el stock con la nueva cantidad vendida
+        producto.setCantidad(producto.getCantidad() - ventaDetails.getCantidad());
+
+        // Guardar el producto con el stock actualizado
+        productoRepository.save(producto);
+
+        // Establecer los nuevos valores en la venta
         venta.setProducto(producto);
         venta.setEmpleado(empleado);
         venta.setMetodoPago(ventaDetails.getMetodoPago());
@@ -61,6 +92,7 @@ public class VentaService {
         venta.setNombreCliente(ventaDetails.getNombreCliente());
         venta.setTotal(ventaDetails.getTotal());
 
+        // Guardar la venta actualizada
         return ventaRepository.save(venta);
     }
 

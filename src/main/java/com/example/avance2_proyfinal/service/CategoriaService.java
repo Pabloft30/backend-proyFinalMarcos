@@ -28,7 +28,6 @@ public class CategoriaService {
     public Categoria updateCategoria(int id, Categoria categoria){
         Categoria cate = categoriaRepository.findById(id).orElse(null);
         if(cate != null){
-            cate.setId(categoria.getId());
             cate.setNombre(categoria.getNombre());
             return categoriaRepository.save(cate);
         }
