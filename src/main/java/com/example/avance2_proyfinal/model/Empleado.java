@@ -2,6 +2,7 @@ package com.example.avance2_proyfinal.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "empleado")
@@ -24,11 +25,11 @@ public class Empleado {
     @NotNull(message = "El teléfono es requerido")
     @Min(value = 900000000, message = "El teléfono debe comenzar con 9 y tener 9 dígitos")
     @Max(value = 999999999, message = "El teléfono debe comenzar con 9 y tener 9 dígitos")
-    private int telefono; // Mantener como int
+    private int telefono;
 
     @NotNull(message = "El correo del empleado es requerido")
     @Column(unique = true)
-    @Pattern(regexp = "^[a-zA-Z0-9_.%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "El correo del empleado no es válido") // Valida que el campo cumpla con una expresión regular
+    @Pattern(regexp = "^[a-zA-Z0-9_.%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "El correo del empleado no es válido")
     private String correo;
 
     @NotNull(message = "La edad es requerida")
@@ -42,9 +43,28 @@ public class Empleado {
     @Size(min = 5, max = 100, message = "La dirección debe tener entre 5 y 100 caracteres")
     private String direccion;
 
+    @NotNull(message = "El nombre de usuario es requerido")
+    @Column(unique = true)
+    @Size(min = 3, max = 50, message = "El nombre de usuario debe tener entre 3 y 50 caracteres")
+    private String nombreUsuario;
+
+    @NotNull(message = "La contraseña es requerida")
+    @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
+    private String password;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Rol> roles;
+
+    // Getters y Setters
     public int getId() {
-            return id;
+        return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -119,5 +139,27 @@ public class Empleado {
         this.direccion = direccion;
     }
 
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
 
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Rol> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Rol> roles) {
+        this.roles = roles;
+    }
 }

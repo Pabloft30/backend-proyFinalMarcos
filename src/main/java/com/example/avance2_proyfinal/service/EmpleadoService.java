@@ -1,21 +1,18 @@
 package com.example.avance2_proyfinal.service;
 
 import com.example.avance2_proyfinal.model.Empleado;
-import com.example.avance2_proyfinal.model.Producto;
 import com.example.avance2_proyfinal.repository.EmpleadoRepository;
-import com.example.avance2_proyfinal.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmpleadoService {
 
     @Autowired
     private EmpleadoRepository empleadoRepository;
-    @Autowired
-    private ProductoRepository productoRepository;
 
     public List<Empleado> getAllEmpleados() {
         return empleadoRepository.findAll();
@@ -30,8 +27,11 @@ public class EmpleadoService {
     }
 
     public Empleado updateEmpleado(int id, Empleado empleado) {
-        Empleado emp = empleadoRepository.findById(id).orElse(null);
-        if (emp != null) {
+        Optional<Empleado> existingEmpleado = empleadoRepository.findById(id);
+        if (existingEmpleado.isPresent()) {
+            Empleado emp = existingEmpleado.get();
+
+            // Actualizamos los campos de Empleado
             emp.setNombre(empleado.getNombre());
             emp.setApellido(empleado.getApellido());
             emp.setTurno(empleado.getTurno());
@@ -40,13 +40,16 @@ public class EmpleadoService {
             emp.setEdad(empleado.getEdad());
             emp.setGenero(empleado.getGenero());
             emp.setDireccion(empleado.getDireccion());
+            emp.setNombreUsuario(empleado.getNombreUsuario()); // Campo corregido aquí
+            emp.setPassword(empleado.getPassword());
+            emp.setRoles(empleado.getRoles());
+
             return empleadoRepository.save(emp);
         }
-        return null;
+        return null; // Manejar mejor con una excepción en un caso real
     }
 
     public void deleteEmpleado(int id) {
         empleadoRepository.deleteById(id);
     }
-
 }
