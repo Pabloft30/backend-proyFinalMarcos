@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/empleados")
-@PreAuthorize("hasRole('ADMIN')")
 public class EmpleadoController {
 
     @Autowired
@@ -31,10 +30,12 @@ public class EmpleadoController {
         return ResponseEntity.notFound().build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public Empleado addEmpleado(@RequestBody Empleado empleado) {
         return empleadoService.addEmpleado(empleado);
     }
+    @PreAuthorize("hasRole('ADMIN')")
 
     @PutMapping("/{id}")
     public ResponseEntity<Empleado> updateEmpleado(@PathVariable int id, @RequestBody Empleado empleado) {
@@ -44,6 +45,7 @@ public class EmpleadoController {
         }
         return ResponseEntity.notFound().build();
     }
+    @PreAuthorize("hasRole('ADMIN')")
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEmpleado(@PathVariable int id) {

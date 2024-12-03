@@ -21,9 +21,9 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(String username, String rol) {
+    public String generateToken(String username, String roles) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("rol", rol);
+        claims.put("roles", roles);
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(username)
@@ -46,7 +46,7 @@ public class JwtUtil {
     }
 
     public String extractRole(String token) {
-        return (String) extractAllClaims(token).get("rol");
+        return (String) extractAllClaims(token).get("roles");
     }
 
     public boolean isTokenExpired(String token) {

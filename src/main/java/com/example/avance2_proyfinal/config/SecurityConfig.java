@@ -71,15 +71,13 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .authenticationProvider(authenticationProvider())
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/authenticate").permitAll(); // Esto permite la autenticación sin restricciones
-                    auth.requestMatchers("/api/**").authenticated();
-                    auth.anyRequest().permitAll();
+                    auth.requestMatchers("/authenticate").permitAll()
+                            .requestMatchers("/api/**").authenticated()
+                            .requestMatchers("/api/empleados/**").permitAll()  // Permitir el acceso sin autenticación a los GET de "/api/empleados"
+                            .anyRequest().permitAll();
                 })
-
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -93,11 +91,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:8080", //Entorno Local
-                "http://localhost:5173", //Entorno con React
-                "http://localhost:3000" //Otros
-        ));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
@@ -106,4 +100,5 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 }
