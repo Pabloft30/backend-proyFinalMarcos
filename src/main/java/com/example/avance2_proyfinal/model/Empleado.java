@@ -3,6 +3,8 @@ package com.example.avance2_proyfinal.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "empleado")
 public class Empleado {
@@ -41,6 +43,26 @@ public class Empleado {
     @NotNull(message = "La dirección es requerida")
     @Size(min = 5, max = 100, message = "La dirección debe tener entre 5 y 100 caracteres")
     private String direccion;
+
+    @NotNull(message = "El nombre de usuario es requerido")
+    @Size(min = 3, max = 50, message = "El nombre de usuario debe tener entre 3 y 50 caracteres")
+    @Column(unique = true, nullable = false)
+    private String nom_usuario;
+
+    @NotNull(message = "La contraseña es requerida")
+    @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).+$",
+            message = "La contraseña debe contener al menos un número, una letra minúscula, una letra mayúscula y un carácter especial (@#$%^&+=)")
+    private String password;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "empleados_roles",
+            joinColumns = @JoinColumn(name = "empleado_id"),
+            inverseJoinColumns = @JoinColumn(name = "rol_id")
+    )
+    private Set<Rol> roles;
+
 
     public int getId() {
             return id;
@@ -119,5 +141,28 @@ public class Empleado {
         this.direccion = direccion;
     }
 
+    public @NotNull(message = "El nombre de usuario es requerido") @Size(min = 3, max = 50, message = "El nombre de usuario debe tener entre 3 y 50 caracteres") String getNom_usuario() {
+        return nom_usuario;
+    }
+
+    public void setNom_usuario(@NotNull(message = "El nombre de usuario es requerido") @Size(min = 3, max = 50, message = "El nombre de usuario debe tener entre 3 y 50 caracteres") String nom_usuario) {
+        this.nom_usuario = nom_usuario;
+    }
+
+    public @NotNull(message = "La contraseña es requerida") @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres") @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).+$", message = "La contraseña debe contener al menos un número, una letra minúscula, una letra mayúscula y un carácter especial (@#$%^&+=)") String getPassword() {
+        return password;
+    }
+
+    public void setPassword(@NotNull(message = "La contraseña es requerida") @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres") @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).+$", message = "La contraseña debe contener al menos un número, una letra minúscula, una letra mayúscula y un carácter especial (@#$%^&+=)") String password) {
+        this.password = password;
+    }
+
+    public Set<Rol> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Rol> roles) {
+        this.roles = roles;
+    }
 
 }

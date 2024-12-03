@@ -1,9 +1,7 @@
 package com.example.avance2_proyfinal.service;
 
 import com.example.avance2_proyfinal.model.Empleado;
-import com.example.avance2_proyfinal.model.Producto;
 import com.example.avance2_proyfinal.repository.EmpleadoRepository;
-import com.example.avance2_proyfinal.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +12,6 @@ public class EmpleadoService {
 
     @Autowired
     private EmpleadoRepository empleadoRepository;
-    @Autowired
-    private ProductoRepository productoRepository;
 
     public List<Empleado> getAllEmpleados() {
         return empleadoRepository.findAll();
@@ -26,6 +22,7 @@ public class EmpleadoService {
     }
 
     public Empleado addEmpleado(Empleado empleado) {
+        // Validaciones adicionales si es necesario
         return empleadoRepository.save(empleado);
     }
 
@@ -40,6 +37,9 @@ public class EmpleadoService {
             emp.setEdad(empleado.getEdad());
             emp.setGenero(empleado.getGenero());
             emp.setDireccion(empleado.getDireccion());
+            emp.setNom_usuario(empleado.getNom_usuario());
+            emp.setPassword(empleado.getPassword());
+            emp.setRoles(empleado.getRoles()); // Asegura que los roles también se actualicen
             return empleadoRepository.save(emp);
         }
         return null;
@@ -48,5 +48,4 @@ public class EmpleadoService {
     public void deleteEmpleado(int id) {
         empleadoRepository.deleteById(id);
     }
-
 }
