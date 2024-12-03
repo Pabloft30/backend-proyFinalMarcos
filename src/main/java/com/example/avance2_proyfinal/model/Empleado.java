@@ -46,7 +46,7 @@ public class Empleado {
     @NotNull(message = "El nombre de usuario es requerido")
     @Column(unique = true)
     @Size(min = 3, max = 50, message = "El nombre de usuario debe tener entre 3 y 50 caracteres")
-    private String nombreUsuario;
+    private String username;
 
     @NotNull(message = "La contraseña es requerida")
     @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
@@ -139,12 +139,12 @@ public class Empleado {
         this.direccion = direccion;
     }
 
-    public String getNombreUsuario() {
-        return nombreUsuario;
+    public String getUsername() {
+        return username;
     }
 
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

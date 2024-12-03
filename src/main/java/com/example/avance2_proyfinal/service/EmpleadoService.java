@@ -3,16 +3,20 @@ package com.example.avance2_proyfinal.service;
 import com.example.avance2_proyfinal.model.Empleado;
 import com.example.avance2_proyfinal.repository.EmpleadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmpleadoService {
 
     @Autowired
     private EmpleadoRepository empleadoRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<Empleado> getAllEmpleados() {
         return empleadoRepository.findAll();
@@ -23,15 +27,14 @@ public class EmpleadoService {
     }
 
     public Empleado addEmpleado(Empleado empleado) {
+        empleado.setPassword(passwordEncoder.encode(empleado.getPassword()));
         return empleadoRepository.save(empleado);
     }
 
     public Empleado updateEmpleado(int id, Empleado empleado) {
-        Optional<Empleado> existingEmpleado = empleadoRepository.findById(id);
-        if (existingEmpleado.isPresent()) {
-            Empleado emp = existingEmpleado.get();
+        Empleado emp = empleadoRepository.findById(id).orElse(null);
+        if (emp != null) {
 
-            // Actualizamos los campos de Empleado
             emp.setNombre(empleado.getNombre());
             emp.setApellido(empleado.getApellido());
             emp.setTurno(empleado.getTurno());
@@ -40,8 +43,10 @@ public class EmpleadoService {
             emp.setEdad(empleado.getEdad());
             emp.setGenero(empleado.getGenero());
             emp.setDireccion(empleado.getDireccion());
-            emp.setNombreUsuario(empleado.getNombreUsuario()); // Campo corregido aquí
-            emp.setPassword(empleado.getPassword());
+            emp.setUsername(empleado.getUsername()); // Campo corregido aquí
+            if (empleado.getPassword() != null && !empleado.getPassword().isEmpty()) {
+                emp.setPassword(passwordEncoder.encode(empleado.getPassword()));
+            }
             emp.setRoles(empleado.getRoles());
 
             return empleadoRepository.save(emp);
@@ -51,5 +56,11 @@ public class EmpleadoService {
 
     public void deleteEmpleado(int id) {
         empleadoRepository.deleteById(id);
+    }
+
+    public Empleado findByUsername(String username) {
+        return empleadoRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + username));
+
     }
 }
